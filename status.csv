@@ -1,5 +1,0 @@
-site,depth_m,temperature_anomaly,oxygen_anomaly
-Folger Pinnacle,25,"-1.08 degC (-1.3 sd, cold)",-0.06 ml/L (normal)
-Barkley Upper Slope,396,"+0.76 degC (+3.5 sd, rising)","+0.13 ml/L (+0.8 sd, rising)"
-Barkley Node,643,"+0.37 degC (+3.0 sd, rising)","+0.18 ml/L (+3.5 sd, record)"
-Barkley Canyon Axis,985,"+0.24 degC (+2.6 sd, rising)","-0.03 ml/L (-1.7 sd, low)"
