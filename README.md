@@ -1,72 +1,32 @@
-# Barkley El Niño Tracker
+# Barkley Slope El Nino Watch
 
-A weekly-updated page tracking how the 2026–27 El Niño shows up on the continental
-slope off southwest Vancouver Island, using Ocean Networks Canada (ONC) cabled
-observatory data.
+An auto-updating page tracking how the 2026-27 El Nino develops in Ocean Networks Canada
+cabled records on the southwest Vancouver Island slope. Complements Steve Mihaly's ONC
+slope/canyon monitor by adding the mechanism, sea-level evidence, the 2023 analog and a forecast.
 
-**Live page:** https://mmwangonc.github.io/barkley-el-nino/
+## Deploy (one time, ~5 minutes)
 
-## What this shows
+1. Create a new GitHub repository (public), e.g. `barkley-el-nino`.
+2. Upload the contents of this folder (keep the structure: `generate_site.py`,
+   `docs/`, `.github/workflows/update.yml`, this README).
+3. In the repo: **Settings -> Secrets and variables -> Actions -> New repository secret**.
+   Name it `ONC_TOKEN`, paste your Ocean Networks Canada API token.
+4. In the repo: **Settings -> Pages**. Source: "Deploy from a branch", branch `main`, folder `/docs`.
+   Your page appears at `https://<your-username>.github.io/barkley-el-nino/`.
+5. The page rebuilds every Monday 16:00 UTC automatically. To rebuild now:
+   **Actions -> weekly-update -> Run workflow**.
 
-The 2026–27 El Niño is one of the strongest on record in the tropical Pacific. Off
-Vancouver Island, its signal has so far appeared at depth, not at the surface:
+## What it does
 
-- On the Barkley Canyon upper slope (396 m), temperature, salinity, density and
-  dissolved oxygen anomalies point to density surfaces being pushed down.
-- Near-surface temperature (ONC Folger Pinnacle, 25 m; NOAA Neah Bay buoy) stayed
-  near normal or cold through autumn 2026.
+`generate_site.py` fetches the latest ONC CTD + oxygen (Folger 25 m, Upper Slope 396 m,
+Node 643 m, Canyon Axis 985 m) and NOAA ENSO / sea-level data, computes anomalies against a
+pre-2026 harmonic climatology, and writes `docs/index.html`, `docs/fig_watch.png`,
+`docs/fig_story.png` and `docs/status.csv`.
 
-The page plots daily and monthly anomalies at several depths against each site's
-own climatology, alongside the NOAA Oceanic Niño Index.
+The figures in `docs/` shipped with this bundle are the 7 November 2026 snapshot; the first
+Action run replaces them with live data.
 
-## Sites
-
-| Site | Code | Depth |
-|---|---|---|
-| Folger Pinnacle | FGPPN | 25 m |
-| Folger Deep | FGPD | 96 m |
-| Barkley Upper Slope | NCBC | 396 m |
-| Barkley Node | BACND | 643 m |
-| Barkley Canyon Axis | BACAX | 985 m |
-
-## How it updates
-
-A GitHub Actions workflow (`.github/workflows/weekly-update.yml`) runs once a week.
-It pulls the latest data from the ONC Oceans 3.0 API, recomputes anomalies, and
-rebuilds the page in `/docs`. To force an update: **Actions → weekly-update → Run
-workflow**.
-
-## Setup (for a copy of this repo)
-
-1. Add your ONC API token as a repository secret named `ONC_TOKEN`
-   (Settings → Secrets and variables → Actions).
-2. Allow the workflow to write: Settings → Actions → General → Workflow
-   permissions → *Read and write*.
-3. Enable Pages: Settings → Pages → Deploy from branch `main`, folder `/docs`.
-
-Get an ONC token from your Oceans 3.0 profile (Web Services API tab).
-
-## Caveats
-
-- **Preliminary.** Recent data have passed ONC's automated QC but not full manual
-  review. The latest few weeks can change.
-- Anomalies are relative to each site's pre-2026 record (8–17 years depending on
-  the site), so record lengths differ between depths.
-- Partial months are provisional.
-- Salinity and oxygen sensor offsets between deployments are still being checked.
-- Folger Deep (96 m) has had no data since July 2026.
-
-## Data sources
-
-- Ocean Networks Canada, Oceans 3.0: https://data.oceannetworks.ca
-- NOAA Climate Prediction Center, Oceanic Niño Index
-- NOAA National Data Buoy Center, station 46087 (Neah Bay)
-
-Please cite Ocean Networks Canada when using these data, following the ONC data
-policy.
-
-## Contact
-
-Manman, Ocean Networks Canada
-
-
+## Notes
+- The ONC fetch of ~18 years for four sites takes several minutes; that is normal in the Action.
+- Lead with temperature (it passes instrument-swap QC); 396 m salinity may carry sensor drift.
+- Data: Ocean Networks Canada Oceans 3.0 (CC-BY 4.0); NOAA CPC/PSL; NOAA CO-OPS.
