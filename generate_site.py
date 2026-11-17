@@ -62,7 +62,8 @@ def anom(s):
 # ---- fetch ONC ----
 D={}; O2={}
 for lc in SITES:
-    D[lc]=fetch(lc,"CTD"); O2[lc]=(fetch(lc,"OXYSENSOR") or pd.DataFrame())
+    D[lc]=fetch(lc,"CTD"); o=fetch(lc,"OXYSENSOR")
+    O2[lc]=o if o is not None else pd.DataFrame()
 A={}; SD={}
 for lc in SITES:
     A[lc]={}; SD[lc]={}
@@ -146,7 +147,8 @@ The same response, smaller, appeared in 2023, so it is repeatable and can be ant
 is the key contrast: the El Nino shows at depth first.</p>
 <h2>How this complements the ONC monitor</h2>
 <p>Steve Mihaly's <a href="https://sfmihaly.github.io/el-nino-2026/">ONC slope &amp; canyon monitor</a> tracks the records as they break, at more depths.
-This page adds the <b>why</b>: the coastally trapped-wave mechanism, independent coastal sea-level evidence, the heave-versus-deoxygenation
+This page focuses on the <b>surface-versus-slope contrast</b> and the mechanism behind it. Coastal sea level, density-surface analysis and the
+2023 comparison will be added as they are completed.</p>
 split on density surfaces, the 2023 repeatability case, and the forecast for 2027.</p>
 <footer>Data: Ocean Networks Canada Oceans 3.0 (CC-BY 4.0); NOAA CPC/PSL ENSO indices; NOAA CO-OPS sea level.
 Auto-generated weekly. Lead with temperature (passed swap-test QC); 396 m salinity may carry sensor drift; Folger Deep 96 m offline since 2026-07-18.</footer>
