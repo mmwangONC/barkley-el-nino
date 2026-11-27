@@ -1,0 +1,20 @@
+name: weekly-update
+on:
+  schedule: [{cron: '0 16 * * 1'}]
+  workflow_dispatch: {}
+permissions: {contents: write}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install numpy pandas matplotlib requests gsw
+      - env: {ONC_TOKEN: "${{ secrets.ONC_TOKEN }}"}
+        run: python generate_site.py
+      - run: |
+          git config user.name el-nino-bot
+          git config user.email actions@users.noreply.github.com
+          git add docs && git commit -m "weekly update $(date -u +%F)" || echo "no changes"
+          git push
